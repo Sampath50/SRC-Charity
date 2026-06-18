@@ -27,7 +27,7 @@ function AboutUs() {
       {/* Hero Section */}
       <div style={{ backgroundColor: "#e74c3c", color: "white", padding: "35px 20px", textAlign: "center" }}>
         <h1 style={{ fontSize: "36px", marginBottom: "10px" }}>About Us</h1>
-        <p style={{ fontSize: "18px", maxWidth: "600px", margin: "0 auto" }}>Making a difference since 2015</p>
+        <p style={{ fontSize: "18px", maxWidth: "600px", margin: "0 auto" }}>Making a difference since 2014</p>
       </div>
       
       <div style={{ padding: "60px 20px", maxWidth: "1200px", margin: "0 auto" }}>
