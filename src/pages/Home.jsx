@@ -5,7 +5,7 @@ function Home() {
   const [status, setStatus] = useState("")
   const [animate, setAnimate] = useState(false)
   
-  // ⚠️ HERO TITLE IS HARDCODED - WILL NOT CHANGE
+  // HERO TITLE IS HARDCODED - WILL NOT CHANGE
   const heroTitle = "SRC Charity"
   const heroSubtitle = "Together we can support education, healthcare, food drives, and social welfare programs."
   
@@ -100,6 +100,14 @@ function Home() {
     { number: "25+", label: "Events Organized" },
     { number: "15+", label: "Partner Organizations" },
     { number: "200+", label: "Active Donors" }
+  ]
+
+  // Additional impact data
+  const additionalImpact = [
+    { number: "8+", label: "Years of Service" },
+    { number: "50+", label: "Schools Supported" },
+    { number: "30+", label: "Health Camps" },
+    { number: "100+", label: "Women Empowered" }
   ]
 
   return (
@@ -251,8 +259,59 @@ function Home() {
         </div>
       </div>
 
+      {/* Additional Impact Section */}
+      <div style={{ padding: "60px 20px", backgroundColor: "#f8f9fa" }}>
+        <div style={{ maxWidth: "1200px", margin: "0 auto", textAlign: "center" }}>
+          <h2 style={{ 
+            fontSize: "32px", 
+            marginBottom: "8px", 
+            fontWeight: "700",
+            color: "#1a1a2e"
+          }}>Our Journey So Far</h2>
+          <p style={{ 
+            fontSize: "16px", 
+            color: "#6b7280", 
+            marginBottom: "40px",
+            fontWeight: "300"
+          }}>Milestones that define our commitment</p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "25px" }}>
+            {additionalImpact.map((item, index) => (
+              <div key={index} style={{ 
+                backgroundColor: "white", 
+                padding: "30px 20px", 
+                borderRadius: "12px",
+                borderTop: "4px solid #dc2626",
+                transition: "transform 0.3s, box-shadow 0.3s",
+                boxShadow: "0 2px 10px rgba(0,0,0,0.04)"
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-5px)"
+                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.08)"
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)"
+                e.currentTarget.style.boxShadow = "0 2px 10px rgba(0,0,0,0.04)"
+              }}>
+                <h3 style={{ 
+                  fontSize: "36px", 
+                  color: "#dc2626", 
+                  margin: "0", 
+                  fontWeight: "700"
+                }}>{item.number}</h3>
+                <p style={{ 
+                  fontSize: "14px", 
+                  color: "#4b5563", 
+                  marginTop: "8px",
+                  fontWeight: "500"
+                }}>{item.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
       {/* Mission Section */}
-      <div style={{ padding: "80px 20px", backgroundColor: "#f8f9fa" }}>
+      <div style={{ padding: "80px 20px", backgroundColor: "#ffffff" }}>
         <div style={{ maxWidth: "1200px", margin: "0 auto", textAlign: "center" }}>
           <h2 style={{ 
             fontSize: "36px", 
@@ -273,9 +332,9 @@ function Home() {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "30px" }}>
             <div style={{ 
               padding: "30px", 
-              backgroundColor: "white", 
+              backgroundColor: "#f8f9fa", 
               borderRadius: "12px", 
-              borderTop: "4px solid #dc2626",
+              borderLeft: "4px solid #dc2626",
               transition: "transform 0.3s, box-shadow 0.3s",
               boxShadow: "0 2px 10px rgba(0,0,0,0.04)"
             }} 
@@ -288,13 +347,13 @@ function Home() {
               e.currentTarget.style.boxShadow = "0 2px 10px rgba(0,0,0,0.04)"
             }}>
               <h3 style={{ fontSize: "22px", marginBottom: "10px", fontWeight: "600", color: "#1a1a2e" }}>Our Vision</h3>
-              <p style={{ fontSize: "15px", color: "#6b7280", lineHeight: "1.6" }}>A world with equal opportunities for all</p>
+              <p style={{ fontSize: "15px", color: "#6b7280", lineHeight: "1.6" }}>A world with equal opportunities for all, where every individual can reach their full potential regardless of their background.</p>
             </div>
             <div style={{ 
               padding: "30px", 
-              backgroundColor: "white", 
+              backgroundColor: "#f8f9fa", 
               borderRadius: "12px", 
-              borderTop: "4px solid #dc2626",
+              borderLeft: "4px solid #dc2626",
               transition: "transform 0.3s, box-shadow 0.3s",
               boxShadow: "0 2px 10px rgba(0,0,0,0.04)"
             }} 
@@ -307,13 +366,13 @@ function Home() {
               e.currentTarget.style.boxShadow = "0 2px 10px rgba(0,0,0,0.04)"
             }}>
               <h3 style={{ fontSize: "22px", marginBottom: "10px", fontWeight: "600", color: "#1a1a2e" }}>Our Impact</h3>
-              <p style={{ fontSize: "15px", color: "#6b7280", lineHeight: "1.6" }}>Transforming lives through sustainable action</p>
+              <p style={{ fontSize: "15px", color: "#6b7280", lineHeight: "1.6" }}>Transforming lives through sustainable action, creating lasting change in communities across India.</p>
             </div>
             <div style={{ 
               padding: "30px", 
-              backgroundColor: "white", 
+              backgroundColor: "#f8f9fa", 
               borderRadius: "12px", 
-              borderTop: "4px solid #dc2626",
+              borderLeft: "4px solid #dc2626",
               transition: "transform 0.3s, box-shadow 0.3s",
               boxShadow: "0 2px 10px rgba(0,0,0,0.04)"
             }} 
@@ -326,40 +385,46 @@ function Home() {
               e.currentTarget.style.boxShadow = "0 2px 10px rgba(0,0,0,0.04)"
             }}>
               <h3 style={{ fontSize: "22px", marginBottom: "10px", fontWeight: "600", color: "#1a1a2e" }}>Our Promise</h3>
-              <p style={{ fontSize: "15px", color: "#6b7280", lineHeight: "1.6" }}>100% transparency in all our activities</p>
+              <p style={{ fontSize: "15px", color: "#6b7280", lineHeight: "1.6" }}>100% transparency in all our activities, ensuring every contribution makes a meaningful difference.</p>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Quick Impact Overview - Red Banner */}
+      {/* Quick Impact Overview - REDUCED BANNER */}
       <div style={{ 
-        padding: "50px 20px", 
+        padding: "35px 20px", 
         backgroundColor: "#dc2626", 
-        color: "white",
-        backgroundImage: "linear-gradient(135deg, #dc2626, #b91c1c)"
+        color: "white"
       }}>
         <div style={{ maxWidth: "1200px", margin: "0 auto", textAlign: "center" }}>
           <h2 style={{ 
-            fontSize: "32px", 
-            marginBottom: "8px", 
+            fontSize: "28px", 
+            marginBottom: "6px", 
             fontWeight: "700"
           }}>Quick Impact Overview</h2>
           <p style={{ 
-            fontSize: "16px", 
-            marginBottom: "35px", 
+            fontSize: "15px", 
+            marginBottom: "30px", 
             opacity: 0.9,
             fontWeight: "300"
           }}>Our reach across communities</p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: "25px" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: "20px" }}>
             {impactNumbers.map((item, index) => (
               <div key={index} style={{
-                padding: "15px",
-                borderRadius: "10px",
-                transition: "transform 0.3s"
+                padding: "12px",
+                borderRadius: "8px",
+                backgroundColor: "rgba(255,255,255,0.1)",
+                transition: "transform 0.3s, backgroundColor 0.3s"
               }}
-              onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.05)"}
-              onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}>
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "scale(1.05)"
+                e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.2)"
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "scale(1)"
+                e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.1)"
+              }}>
                 <h3 style={{ 
                   fontSize: "28px", 
                   fontWeight: "700", 
@@ -367,7 +432,7 @@ function Home() {
                   letterSpacing: "0.5px"
                 }}>{item.number}</h3>
                 <p style={{ 
-                  fontSize: "14px", 
+                  fontSize: "13px", 
                   opacity: 0.9,
                   margin: 0,
                   fontWeight: "400"
