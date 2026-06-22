@@ -54,7 +54,7 @@ function Navbar() {
           padding: "0 20px"
         }}>
           
-          {/* LOGO - FIXED */}
+          {/* LOGO - FIXED: Shows "SRC CHARITY" as one line */}
           <Link to="/" style={{ display: "flex", alignItems: "center", gap: "12px", textDecoration: "none" }}>
             <img 
               src={logoUrl}
