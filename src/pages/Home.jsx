@@ -15,7 +15,7 @@ function Home() {
       { number: "500+", label: "Families Helped" }, 
       { number: "1200+", label: "Students Supported" }, 
       { number: "50+", label: "Medical Camps" }, 
-      { number: "100+", label: "Volunteers" }
+      { number: "100+", label: "Active Volunteers" }
     ],
     mission: { title: "Our Mission", text: "To empower underserved communities through education, healthcare, and social welfare programs." }
   })
@@ -35,7 +35,6 @@ function Home() {
       if (data.success && data.contents) {
         const newContent = { ...content }
         data.contents.forEach(item => {
-          // ⚠️ ONLY update stats and mission - NEVER update hero
           if (item.section === "stats") newContent.stats = item.data
           if (item.section === "mission") newContent.mission = item.data
         })
@@ -53,7 +52,6 @@ function Home() {
       const response = await fetch("https://src-welfare-backend.onrender.com/api/admin/testimonials")
       const data = await response.json()
       if (data.success) {
-        // Replace "SRC Welfare Trust" with "SRC Charity" in testimonials
         const cleanedTestimonials = data.testimonials.map(t => ({
           ...t,
           text: t.text.replace(/SRC Welfare Trust/g, "SRC Charity")
@@ -98,10 +96,10 @@ function Home() {
 
   const stats = content.stats
   const impactNumbers = [
-    { number: "10+", label: "Villages Covered", icon: "🏘️" },
-    { number: "25+", label: "Events Organized", icon: "🎉" },
-    { number: "15+", label: "Partner NGOs", icon: "🤝" },
-    { number: "200+", label: "Active Donors", icon: "❤️" }
+    { number: "10+", label: "Villages Covered" },
+    { number: "25+", label: "Events Organized" },
+    { number: "15+", label: "Partner Organizations" },
+    { number: "200+", label: "Active Donors" }
   ]
 
   return (
@@ -289,7 +287,6 @@ function Home() {
               e.currentTarget.style.transform = "translateY(0)"
               e.currentTarget.style.boxShadow = "0 2px 10px rgba(0,0,0,0.04)"
             }}>
-              <div style={{ fontSize: "45px", marginBottom: "15px" }}>🎯</div>
               <h3 style={{ fontSize: "22px", marginBottom: "10px", fontWeight: "600", color: "#1a1a2e" }}>Our Vision</h3>
               <p style={{ fontSize: "15px", color: "#6b7280", lineHeight: "1.6" }}>A world with equal opportunities for all</p>
             </div>
@@ -309,9 +306,8 @@ function Home() {
               e.currentTarget.style.transform = "translateY(0)"
               e.currentTarget.style.boxShadow = "0 2px 10px rgba(0,0,0,0.04)"
             }}>
-              <div style={{ fontSize: "45px", marginBottom: "15px" }}>💪</div>
               <h3 style={{ fontSize: "22px", marginBottom: "10px", fontWeight: "600", color: "#1a1a2e" }}>Our Impact</h3>
-              <p style={{ fontSize: "15px", color: "#6b7280", lineHeight: "1.6" }}>Transforming lives through action</p>
+              <p style={{ fontSize: "15px", color: "#6b7280", lineHeight: "1.6" }}>Transforming lives through sustainable action</p>
             </div>
             <div style={{ 
               padding: "30px", 
@@ -329,9 +325,8 @@ function Home() {
               e.currentTarget.style.transform = "translateY(0)"
               e.currentTarget.style.boxShadow = "0 2px 10px rgba(0,0,0,0.04)"
             }}>
-              <div style={{ fontSize: "45px", marginBottom: "15px" }}>🤝</div>
               <h3 style={{ fontSize: "22px", marginBottom: "10px", fontWeight: "600", color: "#1a1a2e" }}>Our Promise</h3>
-              <p style={{ fontSize: "15px", color: "#6b7280", lineHeight: "1.6" }}>100% transparency in all activities</p>
+              <p style={{ fontSize: "15px", color: "#6b7280", lineHeight: "1.6" }}>100% transparency in all our activities</p>
             </div>
           </div>
         </div>
@@ -365,7 +360,6 @@ function Home() {
               }}
               onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.05)"}
               onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}>
-                <div style={{ fontSize: "36px", marginBottom: "5px" }}>{item.icon}</div>
                 <h3 style={{ 
                   fontSize: "28px", 
                   fontWeight: "700", 
@@ -478,7 +472,7 @@ function Home() {
               borderRadius: "8px", 
               marginBottom: "20px",
               fontWeight: "500"
-            }}>✅ Message sent successfully!</div>
+            }}>Message sent successfully!</div>
           )}
           {status === "error" && (
             <div style={{ 
@@ -488,7 +482,7 @@ function Home() {
               borderRadius: "8px", 
               marginBottom: "20px",
               fontWeight: "500"
-            }}>❌ Failed to send. Please try again.</div>
+            }}>Failed to send. Please try again.</div>
           )}
           {status === "sending" && (
             <div style={{ 
@@ -498,7 +492,7 @@ function Home() {
               borderRadius: "8px", 
               marginBottom: "20px",
               fontWeight: "500"
-            }}>📧 Sending...</div>
+            }}>Sending...</div>
           )}
 
           <form onSubmit={handleSubmit} style={{ backgroundColor: "white", padding: "40px", borderRadius: "12px", boxShadow: "0 2px 15px rgba(0,0,0,0.05)" }}>
@@ -525,7 +519,7 @@ function Home() {
             <input 
               type="email" 
               name="email" 
-              placeholder="Your Email" 
+              placeholder="Your Email Address" 
               value={formData.email} 
               onChange={handleChange} 
               required 
