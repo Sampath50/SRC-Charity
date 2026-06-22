@@ -54,21 +54,25 @@ function Navbar() {
           padding: "0 20px"
         }}>
           
-          {/* YOUR LOGO WITH CACHE BUSTER */}
-          <Link to="/" style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none" }}>
+          {/* LOGO - FIXED */}
+          <Link to="/" style={{ display: "flex", alignItems: "center", gap: "12px", textDecoration: "none" }}>
             <img 
               src={logoUrl}
               alt="SRC Logo" 
               style={{ 
-                width: "50px", 
-                height: "50px", 
+                width: "45px", 
+                height: "45px", 
                 objectFit: "contain",
                 borderRadius: "10px"
               }} 
             />
-            <div>
-              <div style={{ fontSize: "16px", fontWeight: "bold", color: isScrolled ? "#333" : "white" }}>SRC</div>
-              <div style={{ fontSize: "10px", color: isScrolled ? "#e74c3c" : "#fbbf24" }}> Charity </div>
+            <div style={{ 
+              fontSize: "20px", 
+              fontWeight: "700", 
+              color: isScrolled ? "#1a1a2e" : "white",
+              letterSpacing: "0.5px"
+            }}>
+              SRC CHARITY
             </div>
           </Link>
 
@@ -82,8 +86,11 @@ function Navbar() {
                   style={{
                     color: isScrolled ? "#333" : "white",
                     textDecoration: "none",
-                    fontSize: "14px"
+                    fontSize: "14px",
+                    transition: "color 0.3s"
                   }}
+                  onMouseEnter={(e) => e.target.style.color = "#e74c3c"}
+                  onMouseLeave={(e) => e.target.style.color = isScrolled ? "#333" : "white"}
                 >
                   {link.name}
                 </Link>
@@ -97,7 +104,17 @@ function Navbar() {
                 padding: "10px 24px",
                 border: "none",
                 borderRadius: "25px",
-                cursor: "pointer"
+                cursor: "pointer",
+                fontWeight: "600",
+                transition: "background-color 0.3s, transform 0.2s"
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.backgroundColor = "#c0392b"
+                e.target.style.transform = "scale(1.05)"
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.backgroundColor = "#e74c3c"
+                e.target.style.transform = "scale(1)"
               }}>
                 Donate
               </button>

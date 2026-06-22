@@ -180,13 +180,30 @@ function ProgramsUs() {
 
   return (
     <div>
-      {/* Hero Section */}
-      <div style={{ backgroundColor: "#e74c3c", color: "white", padding: "60px 20px", textAlign: "center" }}>
-        <h1 style={{ fontSize: "48px", marginBottom: "10px" }}>Our Programs</h1>
-        <p style={{ fontSize: "18px" }}>Making a difference through action</p>
+      {/* Hero Section - THIN RED STRIP (same as About and Blog pages) */}
+      <div style={{ 
+        backgroundColor: "#e74c3c", 
+        color: "white", 
+        padding: "12px 20px",
+        textAlign: "center"
+      }}>
+        <h1 style={{ 
+          fontSize: "24px",
+          marginBottom: "2px",
+          fontWeight: "700"
+        }}>Our Programs</h1>
+        <p style={{ 
+          fontSize: "14px",
+          maxWidth: "600px", 
+          margin: "0 auto",
+          opacity: "0.9"
+        }}>Making a difference through action</p>
       </div>
+
+      {/* Spacer to separate hero from content */}
+      <div style={{ height: "20px" }}></div>
       
-      <div style={{ padding: "60px 20px", maxWidth: "1200px", margin: "0 auto" }}>
+      <div style={{ padding: "0 20px 60px 20px", maxWidth: "1200px", margin: "0 auto" }}>
         {/* Programs Grid */}
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))", gap: "30px" }}>
           {programs.map((program) => (
@@ -194,15 +211,21 @@ function ProgramsUs() {
               key={program.id} 
               style={{ 
                 backgroundColor: "white", 
-                borderRadius: "15px", 
+                borderRadius: "10px", 
                 overflow: "hidden",
-                boxShadow: "0 4px 15px rgba(0,0,0,0.1)",
-                transition: "transform 0.3s",
+                boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
+                transition: "transform 0.3s, box-shadow 0.3s",
                 cursor: "pointer"
               }}
               onClick={() => setSelectedProgram(program)}
-              onMouseEnter={(e) => e.currentTarget.style.transform = "translateY(-10px)"}
-              onMouseLeave={(e) => e.currentTarget.style.transform = "translateY(0)"}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-5px)"
+                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.15)"
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)"
+                e.currentTarget.style.boxShadow = "0 4px 6px rgba(0,0,0,0.1)"
+              }}
             >
               <div style={{ height: "200px", overflow: "hidden" }}>
                 <img 
@@ -212,17 +235,24 @@ function ProgramsUs() {
                 />
               </div>
               <div style={{ padding: "25px" }}>
-                <div style={{ fontSize: "50px", marginBottom: "10px" }}>{program.icon}</div>
-                <h3 style={{ fontSize: "24px", marginBottom: "10px", color: program.color }}>{program.title}</h3>
-                <p style={{ color: "#666", lineHeight: "1.6", marginBottom: "15px" }}>{program.description}</p>
+                <div style={{ fontSize: "40px", marginBottom: "10px" }}>{program.icon}</div>
+                <h3 style={{ 
+                  fontSize: "22px", 
+                  marginBottom: "10px", 
+                  color: "#1a1a2e",
+                  fontWeight: "600"
+                }}>{program.title}</h3>
+                <p style={{ color: "#666", lineHeight: "1.6", marginBottom: "15px", fontSize: "15px" }}>{program.description}</p>
                 <button 
                   style={{
                     backgroundColor: program.color,
                     color: "white",
                     border: "none",
-                    padding: "8px 20px",
+                    padding: "8px 24px",
                     borderRadius: "20px",
-                    cursor: "pointer"
+                    cursor: "pointer",
+                    fontSize: "14px",
+                    fontWeight: "500"
                   }}
                 >
                   Learn More →
@@ -242,7 +272,7 @@ function ProgramsUs() {
             left: 0,
             right: 0,
             bottom: 0,
-            backgroundColor: "rgba(0,0,0,0.8)",
+            backgroundColor: "rgba(0,0,0,0.7)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -257,7 +287,7 @@ function ProgramsUs() {
               backgroundColor: "white",
               maxWidth: "700px",
               width: "100%",
-              borderRadius: "15px",
+              borderRadius: "10px",
               overflow: "hidden",
               maxHeight: "80vh",
               overflowY: "auto",
@@ -284,16 +314,29 @@ function ProgramsUs() {
                   height: "40px",
                   borderRadius: "50%",
                   cursor: "pointer",
-                  fontWeight: "bold"
+                  fontWeight: "bold",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.2)"
                 }}
               >
                 ✕
               </button>
             </div>
             <div style={{ padding: "30px" }}>
-              <div style={{ fontSize: "60px", marginBottom: "15px" }}>{selectedProgram.icon}</div>
-              <h2 style={{ fontSize: "32px", marginBottom: "15px", color: selectedProgram.color }}>{selectedProgram.title}</h2>
-              <div dangerouslySetInnerHTML={{ __html: selectedProgram.longDescription }} />
+              <div style={{ fontSize: "50px", marginBottom: "15px" }}>{selectedProgram.icon}</div>
+              <h2 style={{ 
+                fontSize: "28px", 
+                marginBottom: "15px", 
+                color: selectedProgram.color,
+                fontWeight: "600"
+              }}>{selectedProgram.title}</h2>
+              <div 
+                dangerouslySetInnerHTML={{ __html: selectedProgram.longDescription }}
+                style={{
+                  fontSize: "15px",
+                  lineHeight: "1.8",
+                  color: "#4a4a4a"
+                }}
+              />
               <button
                 onClick={closeModal}
                 style={{
@@ -303,7 +346,9 @@ function ProgramsUs() {
                   padding: "12px 30px",
                   borderRadius: "30px",
                   cursor: "pointer",
-                  marginTop: "20px"
+                  marginTop: "20px",
+                  fontSize: "15px",
+                  fontWeight: "500"
                 }}
               >
                 Close

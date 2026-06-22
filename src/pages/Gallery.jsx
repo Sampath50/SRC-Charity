@@ -39,12 +39,30 @@ function Gallery() {
 
   return (
     <div>
-      <div style={{ backgroundColor: "#e74c3c", color: "white", padding: "60px 20px", textAlign: "center" }}>
-        <h1 style={{ fontSize: "48px", marginBottom: "10px" }}>Our Gallery</h1>
-        <p style={{ fontSize: "18px" }}>Moments that matter</p>
+      {/* Hero Section - THIN RED STRIP (same as other pages) */}
+      <div style={{ 
+        backgroundColor: "#e74c3c", 
+        color: "white", 
+        padding: "12px 20px",
+        textAlign: "center"
+      }}>
+        <h1 style={{ 
+          fontSize: "24px",
+          marginBottom: "2px",
+          fontWeight: "700"
+        }}>Our Gallery</h1>
+        <p style={{ 
+          fontSize: "14px",
+          maxWidth: "600px", 
+          margin: "0 auto",
+          opacity: "0.9"
+        }}>Moments that matter</p>
       </div>
 
-      <div style={{ padding: "40px 20px", maxWidth: "1200px", margin: "0 auto" }}>
+      {/* Spacer to separate hero from content */}
+      <div style={{ height: "20px" }}></div>
+
+      <div style={{ padding: "0 20px 60px 20px", maxWidth: "1200px", margin: "0 auto" }}>
         
         {/* Category Filter */}
         {categories.length > 1 && (
@@ -60,7 +78,9 @@ function Gallery() {
                   border: "none",
                   borderRadius: "25px",
                   cursor: "pointer",
-                  transition: "all 0.3s"
+                  transition: "all 0.3s",
+                  fontSize: "14px",
+                  fontWeight: "500"
                 }}
               >
                 {cat}
@@ -71,8 +91,13 @@ function Gallery() {
 
         {/* Gallery Grid */}
         {images.length === 0 ? (
-          <div style={{ textAlign: "center", padding: "60px", backgroundColor: "#f9fafb", borderRadius: "10px" }}>
-            <p>No images in gallery yet. Please check back later.</p>
+          <div style={{ 
+            textAlign: "center", 
+            padding: "60px", 
+            backgroundColor: "#f9fafb", 
+            borderRadius: "10px" 
+          }}>
+            <p style={{ color: "#666" }}>No images in gallery yet. Please check back later.</p>
           </div>
         ) : (
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))", gap: "30px" }}>
@@ -85,20 +110,36 @@ function Gallery() {
                   overflow: "hidden",
                   boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
                   cursor: "pointer",
-                  transition: "transform 0.3s"
+                  transition: "transform 0.3s, box-shadow 0.3s"
                 }}
                 onClick={() => setSelectedImage(img)}
-                onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.02)"}
-                onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = "translateY(-5px)"
+                  e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.15)"
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "translateY(0)"
+                  e.currentTarget.style.boxShadow = "0 4px 6px rgba(0,0,0,0.1)"
+                }}
               >
                 <img 
                   src={img.imageUrl} 
                   alt={img.title} 
                   style={{ width: "100%", height: "250px", objectFit: "cover" }} 
                 />
-                <div style={{ padding: "15px" }}>
-                  <h3 style={{ margin: "0 0 5px 0" }}>{img.title}</h3>
-                  <p style={{ color: "#e74c3c", margin: 0, fontSize: "14px" }}>{img.category}</p>
+                <div style={{ padding: "20px" }}>
+                  <h3 style={{ 
+                    margin: "0 0 5px 0", 
+                    fontSize: "18px", 
+                    color: "#1a1a2e",
+                    fontWeight: "600"
+                  }}>{img.title}</h3>
+                  <p style={{ 
+                    color: "#e74c3c", 
+                    margin: 0, 
+                    fontSize: "14px",
+                    fontWeight: "500"
+                  }}>{img.category}</p>
                 </div>
               </div>
             ))}
@@ -120,11 +161,33 @@ function Gallery() {
             alignItems: "center",
             justifyContent: "center",
             zIndex: 1000,
-            cursor: "pointer"
+            cursor: "pointer",
+            padding: "20px"
           }}
           onClick={() => setSelectedImage(null)}
         >
-          <div style={{ maxWidth: "90%", maxHeight: "90%" }}>
+          <div style={{ 
+            maxWidth: "90%", 
+            maxHeight: "90%",
+            position: "relative"
+          }}>
+            <button
+              onClick={() => setSelectedImage(null)}
+              style={{
+                position: "absolute",
+                top: "-40px",
+                right: "0",
+                backgroundColor: "transparent",
+                color: "white",
+                border: "none",
+                fontSize: "28px",
+                cursor: "pointer",
+                fontWeight: "bold",
+                padding: "10px"
+              }}
+            >
+              ✕
+            </button>
             <img
               src={selectedImage.imageUrl}
               alt={selectedImage.title}
@@ -136,10 +199,21 @@ function Gallery() {
                 objectFit: "contain" 
               }}
             />
-            <h3 style={{ color: "white", textAlign: "center", marginTop: "20px" }}>
+            <h3 style={{ 
+              color: "white", 
+              textAlign: "center", 
+              marginTop: "20px",
+              fontSize: "24px",
+              fontWeight: "600"
+            }}>
               {selectedImage.title}
             </h3>
-            <p style={{ color: "#e74c3c", textAlign: "center" }}>
+            <p style={{ 
+              color: "#e74c3c", 
+              textAlign: "center",
+              fontSize: "16px",
+              fontWeight: "500"
+            }}>
               {selectedImage.category}
             </p>
           </div>

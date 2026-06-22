@@ -1,4 +1,8 @@
 {
+  "version": 2,
+  "buildCommand": "",
+  "installCommand": "",
+  "outputDirectory": "dist",
   "rewrites": [
     {
       "source": "/(.*)",

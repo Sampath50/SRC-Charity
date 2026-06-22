@@ -28,34 +28,85 @@ function FAQ() {
 
   return (
     <div>
-      <div style={{ backgroundColor: "#e74c3c", color: "white", padding: "60px 20px", textAlign: "center" }}>
-        <h1 style={{ fontSize: "48px", marginBottom: "10px" }}>Frequently Asked Questions</h1>
-        <p style={{ fontSize: "18px" }}>Find answers to common questions</p>
+      {/* Hero Section - THIN RED STRIP (same as all other pages) */}
+      <div style={{ 
+        backgroundColor: "#e74c3c", 
+        color: "white", 
+        padding: "12px 20px",
+        textAlign: "center"
+      }}>
+        <h1 style={{ 
+          fontSize: "24px",
+          marginBottom: "2px",
+          fontWeight: "700"
+        }}>Frequently Asked Questions</h1>
+        <p style={{ 
+          fontSize: "14px",
+          maxWidth: "600px", 
+          margin: "0 auto",
+          opacity: "0.9"
+        }}>Find answers to common questions</p>
       </div>
 
-      <div style={{ padding: "60px 20px", maxWidth: "800px", margin: "0 auto" }}>
+      {/* Spacer to separate hero from content */}
+      <div style={{ height: "20px" }}></div>
+
+      <div style={{ padding: "0 20px 60px 20px", maxWidth: "800px", margin: "0 auto" }}>
         {faqs.map((faq, index) => (
-          <div key={index} style={{ marginBottom: "20px", border: "1px solid #e0e0e0", borderRadius: "10px", overflow: "hidden" }}>
+          <div 
+            key={index} 
+            style={{ 
+              marginBottom: "16px", 
+              border: "1px solid #e5e7eb", 
+              borderRadius: "10px", 
+              overflow: "hidden",
+              boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
+              transition: "box-shadow 0.3s"
+            }}
+          >
             <button
               onClick={() => setOpenIndex(openIndex === index ? null : index)}
               style={{
                 width: "100%",
-                padding: "20px",
+                padding: "20px 24px",
                 textAlign: "left",
                 backgroundColor: "white",
                 border: "none",
                 cursor: "pointer",
                 display: "flex",
                 justifyContent: "space-between",
-                alignItems: "center"
+                alignItems: "center",
+                transition: "background-color 0.2s"
               }}
+              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = "#fafafa"}
+              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = "white"}
             >
-              <span style={{ fontSize: "18px", fontWeight: "bold" }}>{faq.question}</span>
-              <span style={{ fontSize: "24px" }}>{openIndex === index ? "−" : "+"}</span>
+              <span style={{ 
+                fontSize: "17px", 
+                fontWeight: "600",
+                color: "#1a1a2e",
+                paddingRight: "20px"
+              }}>{faq.question}</span>
+              <span style={{ 
+                fontSize: "28px", 
+                color: "#e74c3c",
+                fontWeight: "300",
+                flexShrink: 0,
+                lineHeight: "1"
+              }}>{openIndex === index ? "−" : "+"}</span>
             </button>
             {openIndex === index && (
-              <div style={{ padding: "20px", backgroundColor: "#f8f9fa", borderTop: "1px solid #e0e0e0" }}>
-                <p style={{ color: "#666", lineHeight: "1.6" }}>{faq.answer}</p>
+              <div style={{ 
+                padding: "20px 24px 24px 24px", 
+                backgroundColor: "#fafafa", 
+                borderTop: "1px solid #e5e7eb"
+              }}>
+                <p style={{ 
+                  color: "#4a4a4a", 
+                  lineHeight: "1.7",
+                  margin: 0,
+                  fontSize: "15px"
+                }}>{faq.answer}</p>
               </div>
             )}
           </div>

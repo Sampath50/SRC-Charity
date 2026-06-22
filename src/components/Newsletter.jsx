@@ -16,7 +16,7 @@ function Newsletter() {
   }
 
   return (
-    <div style={{ backgroundColor: "#e74c3c", color: "white", padding: "60px 20px", textAlign: "center" }}>
+    <div style={{ backgroundColor: "#dc2626", color: "white", padding: "60px 20px", textAlign: "center" }}>
       <div style={{ maxWidth: "600px", margin: "0 auto" }}>
         <h2 style={{ fontSize: "32px", marginBottom: "10px" }}>Subscribe to Our Newsletter</h2>
         <p style={{ marginBottom: "30px", opacity: 0.9 }}>Get updates about our work and how you can help</p>
@@ -32,7 +32,7 @@ function Newsletter() {
             required
             style={{ padding: "12px 20px", borderRadius: "30px", border: "none", width: "300px", fontSize: "16px" }}
           />
-          <button type="submit" style={{ padding: "12px 30px", backgroundColor: "#1f2937", color: "white", border: "none", borderRadius: "30px", cursor: "pointer" }}>
+          <button type="submit" style={{ padding: "12px 30px", backgroundColor: "#1f2937", color: "white", border: "none", borderRadius: "30px", cursor: "pointer", fontWeight: "600" }}>
             Subscribe
           </button>
         </form>

@@ -5,10 +5,18 @@ function Home() {
   const [status, setStatus] = useState("")
   const [animate, setAnimate] = useState(false)
   
-  // Default content - shows immediately (no loading)
+  // ⚠️ HERO TITLE IS HARDCODED - WILL NOT CHANGE
+  const heroTitle = "SRC Charity"
+  const heroSubtitle = "Together we can support education, healthcare, food drives, and social welfare programs."
+  
+  // Default content
   const [content, setContent] = useState({
-    hero: { title: "SRC Charity", subtitle: "Together we can support education, healthcare, food drives, and social welfare programs." },
-    stats: [{ number: "500+", label: "Families Helped" }, { number: "1200+", label: "Students Supported" }, { number: "50+", label: "Medical Camps" }, { number: "100+", label: "Volunteers" }],
+    stats: [
+      { number: "500+", label: "Families Helped" }, 
+      { number: "1200+", label: "Students Supported" }, 
+      { number: "50+", label: "Medical Camps" }, 
+      { number: "100+", label: "Volunteers" }
+    ],
     mission: { title: "Our Mission", text: "To empower underserved communities through education, healthcare, and social welfare programs." }
   })
   const [testimonials, setTestimonials] = useState([])
@@ -27,7 +35,7 @@ function Home() {
       if (data.success && data.contents) {
         const newContent = { ...content }
         data.contents.forEach(item => {
-          if (item.section === "hero") newContent.hero = item.data
+          // ⚠️ ONLY update stats and mission - NEVER update hero
           if (item.section === "stats") newContent.stats = item.data
           if (item.section === "mission") newContent.mission = item.data
         })
@@ -45,7 +53,12 @@ function Home() {
       const response = await fetch("https://src-welfare-backend.onrender.com/api/admin/testimonials")
       const data = await response.json()
       if (data.success) {
-        setTestimonials(data.testimonials)
+        // Replace "SRC Welfare Trust" with "SRC Charity" in testimonials
+        const cleanedTestimonials = data.testimonials.map(t => ({
+          ...t,
+          text: t.text.replace(/SRC Welfare Trust/g, "SRC Charity")
+        }))
+        setTestimonials(cleanedTestimonials)
       }
     } catch (error) {
       console.error("Error fetching testimonials:", error)
@@ -93,7 +106,7 @@ function Home() {
 
   return (
     <div style={{ margin: 0, padding: 0 }}>
-      {/* Hero Section */}
+      {/* Hero Section - Full screen with overlay */}
       <div style={{
         height: "70vh",
         backgroundImage: "url('https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=1600')",
@@ -110,29 +123,54 @@ function Home() {
           left: 0,
           right: 0,
           bottom: 0,
-          backgroundColor: "rgba(0,0,0,0.55)"
+          backgroundColor: "rgba(0,0,0,0.6)"
         }}></div>
         
-        <div style={{ position: "relative", textAlign: "center", color: "white", padding: "20px", maxWidth: "800px", animation: animate ? "fadeInUp 0.6s ease-out" : "none" }}>
-          <h1 style={{ fontSize: "52px", marginBottom: "20px", fontWeight: "700" }}>{content.hero.title}</h1>
-          <p style={{ fontSize: "20px", marginBottom: "30px", lineHeight: "1.5", opacity: 0.95 }}>
-            {content.hero.subtitle}
+        <div style={{ 
+          position: "relative", 
+          textAlign: "center", 
+          color: "white", 
+          padding: "20px", 
+          maxWidth: "800px", 
+          animation: animate ? "fadeInUp 0.8s ease-out" : "none" 
+        }}>
+          <h1 style={{ 
+            fontSize: "52px", 
+            marginBottom: "16px", 
+            fontWeight: "700",
+            letterSpacing: "1px"
+          }}>{heroTitle}</h1>
+          <p style={{ 
+            fontSize: "20px", 
+            marginBottom: "30px", 
+            lineHeight: "1.6", 
+            opacity: 0.95,
+            fontWeight: "300"
+          }}>
+            {heroSubtitle}
           </p>
           <div style={{ display: "flex", gap: "15px", justifyContent: "center", flexWrap: "wrap" }}>
             <a href="/donate">
               <button style={{
                 backgroundColor: "#dc2626",
                 color: "white",
-                padding: "12px 32px",
+                padding: "14px 36px",
                 border: "none",
                 borderRadius: "40px",
                 fontSize: "16px",
-                fontWeight: "500",
+                fontWeight: "600",
                 cursor: "pointer",
-                transition: "all 0.3s"
+                transition: "all 0.3s",
+                boxShadow: "0 4px 15px rgba(220, 38, 38, 0.3)"
               }}
-              onMouseEnter={(e) => e.target.style.backgroundColor = "#b91c1c"}
-              onMouseLeave={(e) => e.target.style.backgroundColor = "#dc2626"}>
+              onMouseEnter={(e) => {
+                e.target.style.backgroundColor = "#b91c1c"
+                e.target.style.transform = "translateY(-2px)"
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.backgroundColor = "#dc2626"
+                e.target.style.transform = "translateY(0)"
+              }}>
                 Donate Now
               </button>
             </a>
@@ -140,21 +178,23 @@ function Home() {
               <button style={{
                 backgroundColor: "transparent",
                 color: "white",
-                padding: "12px 32px",
+                padding: "14px 36px",
                 border: "2px solid white",
                 borderRadius: "40px",
                 fontSize: "16px",
-                fontWeight: "500",
+                fontWeight: "600",
                 cursor: "pointer",
                 transition: "all 0.3s"
               }}
               onMouseEnter={(e) => {
                 e.target.style.backgroundColor = "white"
                 e.target.style.color = "#1f2937"
+                e.target.style.transform = "translateY(-2px)"
               }}
               onMouseLeave={(e) => {
                 e.target.style.backgroundColor = "transparent"
                 e.target.style.color = "white"
+                e.target.style.transform = "translateY(0)"
               }}>
                 Our Programs
               </button>
@@ -164,23 +204,49 @@ function Home() {
       </div>
 
       {/* Statistics Section */}
-      <div style={{ padding: "80px 20px", backgroundColor: "#f9fafb" }}>
+      <div style={{ padding: "80px 20px", backgroundColor: "#ffffff" }}>
         <div style={{ maxWidth: "1200px", margin: "0 auto", textAlign: "center" }}>
-          <h2 style={{ fontSize: "32px", marginBottom: "15px", fontWeight: "700" }}>Our Impact in Numbers</h2>
-          <p style={{ fontSize: "16px", color: "#6b7280", marginBottom: "50px" }}>Making a real difference in communities</p>
+          <h2 style={{ 
+            fontSize: "36px", 
+            marginBottom: "8px", 
+            fontWeight: "700",
+            color: "#1a1a2e"
+          }}>Our Impact in Numbers</h2>
+          <p style={{ 
+            fontSize: "18px", 
+            color: "#6b7280", 
+            marginBottom: "50px",
+            fontWeight: "300"
+          }}>Making a real difference in communities</p>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "30px" }}>
             {stats.map((stat, index) => (
               <div key={index} style={{ 
-                backgroundColor: "white", 
-                padding: "30px 20px", 
+                backgroundColor: "#f8f9fa", 
+                padding: "35px 20px", 
                 borderRadius: "12px",
-                boxShadow: "0 1px 3px rgba(0,0,0,0.05)",
-                transition: "transform 0.3s"
+                borderBottom: "4px solid #dc2626",
+                transition: "transform 0.3s, box-shadow 0.3s"
               }}
-              onMouseEnter={(e) => e.currentTarget.style.transform = "translateY(-5px)"}
-              onMouseLeave={(e) => e.currentTarget.style.transform = "translateY(0)"}>
-                <h2 style={{ fontSize: "44px", color: "#dc2626", margin: "0", fontWeight: "700" }}>{stat.number}</h2>
-                <p style={{ fontSize: "16px", color: "#4b5563", marginTop: "10px" }}>{stat.label}</p>
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-8px)"
+                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.08)"
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)"
+                e.currentTarget.style.boxShadow = "none"
+              }}>
+                <h2 style={{ 
+                  fontSize: "44px", 
+                  color: "#dc2626", 
+                  margin: "0", 
+                  fontWeight: "700"
+                }}>{stat.number}</h2>
+                <p style={{ 
+                  fontSize: "16px", 
+                  color: "#4b5563", 
+                  marginTop: "8px",
+                  fontWeight: "500"
+                }}>{stat.label}</p>
               </div>
             ))}
           </div>
@@ -188,43 +254,130 @@ function Home() {
       </div>
 
       {/* Mission Section */}
-      <div style={{ padding: "80px 20px", backgroundColor: "white" }}>
+      <div style={{ padding: "80px 20px", backgroundColor: "#f8f9fa" }}>
         <div style={{ maxWidth: "1200px", margin: "0 auto", textAlign: "center" }}>
-          <h2 style={{ fontSize: "32px", marginBottom: "20px", fontWeight: "700" }}>{content.mission.title}</h2>
-          <p style={{ fontSize: "18px", color: "#4b5563", maxWidth: "800px", margin: "0 auto 50px", lineHeight: "1.6" }}>
+          <h2 style={{ 
+            fontSize: "36px", 
+            marginBottom: "16px", 
+            fontWeight: "700",
+            color: "#1a1a2e"
+          }}>{content.mission.title}</h2>
+          <p style={{ 
+            fontSize: "18px", 
+            color: "#4b5563", 
+            maxWidth: "800px", 
+            margin: "0 auto 50px", 
+            lineHeight: "1.8",
+            fontWeight: "300"
+          }}>
             {content.mission.text}
           </p>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "30px" }}>
-            <div style={{ padding: "25px", backgroundColor: "#f9fafb", borderRadius: "12px", transition: "transform 0.3s" }} onMouseEnter={(e) => e.currentTarget.style.transform = "translateY(-5px)"} onMouseLeave={(e) => e.currentTarget.style.transform = "translateY(0)"}>
+            <div style={{ 
+              padding: "30px", 
+              backgroundColor: "white", 
+              borderRadius: "12px", 
+              borderTop: "4px solid #dc2626",
+              transition: "transform 0.3s, box-shadow 0.3s",
+              boxShadow: "0 2px 10px rgba(0,0,0,0.04)"
+            }} 
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = "translateY(-5px)"
+              e.currentTarget.style.boxShadow = "0 8px 30px rgba(0,0,0,0.08)"
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "translateY(0)"
+              e.currentTarget.style.boxShadow = "0 2px 10px rgba(0,0,0,0.04)"
+            }}>
               <div style={{ fontSize: "45px", marginBottom: "15px" }}>🎯</div>
-              <h3 style={{ fontSize: "22px", marginBottom: "10px", fontWeight: "600" }}>Our Vision</h3>
-              <p style={{ fontSize: "15px", color: "#6b7280", lineHeight: "1.5" }}>A world with equal opportunities for all</p>
+              <h3 style={{ fontSize: "22px", marginBottom: "10px", fontWeight: "600", color: "#1a1a2e" }}>Our Vision</h3>
+              <p style={{ fontSize: "15px", color: "#6b7280", lineHeight: "1.6" }}>A world with equal opportunities for all</p>
             </div>
-            <div style={{ padding: "25px", backgroundColor: "#f9fafb", borderRadius: "12px", transition: "transform 0.3s" }} onMouseEnter={(e) => e.currentTarget.style.transform = "translateY(-5px)"} onMouseLeave={(e) => e.currentTarget.style.transform = "translateY(0)"}>
+            <div style={{ 
+              padding: "30px", 
+              backgroundColor: "white", 
+              borderRadius: "12px", 
+              borderTop: "4px solid #dc2626",
+              transition: "transform 0.3s, box-shadow 0.3s",
+              boxShadow: "0 2px 10px rgba(0,0,0,0.04)"
+            }} 
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = "translateY(-5px)"
+              e.currentTarget.style.boxShadow = "0 8px 30px rgba(0,0,0,0.08)"
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "translateY(0)"
+              e.currentTarget.style.boxShadow = "0 2px 10px rgba(0,0,0,0.04)"
+            }}>
               <div style={{ fontSize: "45px", marginBottom: "15px" }}>💪</div>
-              <h3 style={{ fontSize: "22px", marginBottom: "10px", fontWeight: "600" }}>Our Impact</h3>
-              <p style={{ fontSize: "15px", color: "#6b7280", lineHeight: "1.5" }}>Transforming lives through action</p>
+              <h3 style={{ fontSize: "22px", marginBottom: "10px", fontWeight: "600", color: "#1a1a2e" }}>Our Impact</h3>
+              <p style={{ fontSize: "15px", color: "#6b7280", lineHeight: "1.6" }}>Transforming lives through action</p>
             </div>
-            <div style={{ padding: "25px", backgroundColor: "#f9fafb", borderRadius: "12px", transition: "transform 0.3s" }} onMouseEnter={(e) => e.currentTarget.style.transform = "translateY(-5px)"} onMouseLeave={(e) => e.currentTarget.style.transform = "translateY(0)"}>
+            <div style={{ 
+              padding: "30px", 
+              backgroundColor: "white", 
+              borderRadius: "12px", 
+              borderTop: "4px solid #dc2626",
+              transition: "transform 0.3s, box-shadow 0.3s",
+              boxShadow: "0 2px 10px rgba(0,0,0,0.04)"
+            }} 
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = "translateY(-5px)"
+              e.currentTarget.style.boxShadow = "0 8px 30px rgba(0,0,0,0.08)"
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "translateY(0)"
+              e.currentTarget.style.boxShadow = "0 2px 10px rgba(0,0,0,0.04)"
+            }}>
               <div style={{ fontSize: "45px", marginBottom: "15px" }}>🤝</div>
-              <h3 style={{ fontSize: "22px", marginBottom: "10px", fontWeight: "600" }}>Our Promise</h3>
-              <p style={{ fontSize: "15px", color: "#6b7280", lineHeight: "1.5" }}>100% transparency in all activities</p>
+              <h3 style={{ fontSize: "22px", marginBottom: "10px", fontWeight: "600", color: "#1a1a2e" }}>Our Promise</h3>
+              <p style={{ fontSize: "15px", color: "#6b7280", lineHeight: "1.6" }}>100% transparency in all activities</p>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Quick Impact Overview */}
-      <div style={{ padding: "40px 20px", backgroundColor: "#dc2626", color: "white" }}>
+      {/* Quick Impact Overview - Red Banner */}
+      <div style={{ 
+        padding: "50px 20px", 
+        backgroundColor: "#dc2626", 
+        color: "white",
+        backgroundImage: "linear-gradient(135deg, #dc2626, #b91c1c)"
+      }}>
         <div style={{ maxWidth: "1200px", margin: "0 auto", textAlign: "center" }}>
-          <h2 style={{ fontSize: "28px", marginBottom: "10px", fontWeight: "700" }}>Quick Impact Overview</h2>
-          <p style={{ fontSize: "14px", marginBottom: "30px", opacity: 0.9 }}>Our reach across communities</p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: "20px" }}>
+          <h2 style={{ 
+            fontSize: "32px", 
+            marginBottom: "8px", 
+            fontWeight: "700"
+          }}>Quick Impact Overview</h2>
+          <p style={{ 
+            fontSize: "16px", 
+            marginBottom: "35px", 
+            opacity: 0.9,
+            fontWeight: "300"
+          }}>Our reach across communities</p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: "25px" }}>
             {impactNumbers.map((item, index) => (
-              <div key={index}>
-                <div style={{ fontSize: "32px", marginBottom: "5px" }}>{item.icon}</div>
-                <h3 style={{ fontSize: "24px", fontWeight: "bold", margin: "5px 0" }}>{item.number}</h3>
-                <p style={{ fontSize: "12px", opacity: 0.9 }}>{item.label}</p>
+              <div key={index} style={{
+                padding: "15px",
+                borderRadius: "10px",
+                transition: "transform 0.3s"
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.05)"}
+              onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}>
+                <div style={{ fontSize: "36px", marginBottom: "5px" }}>{item.icon}</div>
+                <h3 style={{ 
+                  fontSize: "28px", 
+                  fontWeight: "700", 
+                  margin: "5px 0",
+                  letterSpacing: "0.5px"
+                }}>{item.number}</h3>
+                <p style={{ 
+                  fontSize: "14px", 
+                  opacity: 0.9,
+                  margin: 0,
+                  fontWeight: "400"
+                }}>{item.label}</p>
               </div>
             ))}
           </div>
@@ -232,31 +385,66 @@ function Home() {
       </div>
 
       {/* Testimonials Section */}
-      <div style={{ padding: "60px 20px", backgroundColor: "#f9fafb" }}>
+      <div style={{ padding: "80px 20px", backgroundColor: "#ffffff" }}>
         <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-          <h2 style={{ fontSize: "32px", textAlign: "center", marginBottom: "10px", fontWeight: "700" }}>What People Say</h2>
-          <p style={{ textAlign: "center", fontSize: "16px", color: "#6b7280", marginBottom: "50px" }}>Stories of hope and transformation</p>
+          <h2 style={{ 
+            fontSize: "36px", 
+            textAlign: "center", 
+            marginBottom: "8px", 
+            fontWeight: "700",
+            color: "#1a1a2e"
+          }}>What People Say</h2>
+          <p style={{ 
+            textAlign: "center", 
+            fontSize: "18px", 
+            color: "#6b7280", 
+            marginBottom: "50px",
+            fontWeight: "300"
+          }}>Stories of hope and transformation</p>
           {testimonials.length === 0 ? (
             <p style={{ textAlign: "center", color: "#6b7280" }}>No testimonials yet.</p>
           ) : (
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "30px" }}>
               {testimonials.map((testimonial) => (
                 <div key={testimonial._id} style={{ 
-                  backgroundColor: "white", 
-                  padding: "25px", 
+                  backgroundColor: "#f8f9fa", 
+                  padding: "30px", 
                   borderRadius: "12px",
-                  boxShadow: "0 1px 3px rgba(0,0,0,0.05)",
-                  transition: "transform 0.3s"
+                  borderLeft: "4px solid #dc2626",
+                  transition: "transform 0.3s, box-shadow 0.3s",
+                  boxShadow: "0 2px 10px rgba(0,0,0,0.04)"
                 }}
-                onMouseEnter={(e) => e.currentTarget.style.transform = "translateY(-5px)"}
-                onMouseLeave={(e) => e.currentTarget.style.transform = "translateY(0)"}>
-                  <div style={{ fontSize: "28px", marginBottom: "10px", color: "#dc2626" }}>"</div>
-                  <p style={{ fontSize: "14px", lineHeight: "1.6", color: "#4b5563", marginBottom: "20px" }}>{testimonial.text}</p>
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = "translateY(-5px)"
+                  e.currentTarget.style.boxShadow = "0 8px 30px rgba(0,0,0,0.08)"
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "translateY(0)"
+                  e.currentTarget.style.boxShadow = "0 2px 10px rgba(0,0,0,0.04)"
+                }}>
+                  <div style={{ fontSize: "30px", marginBottom: "10px", color: "#dc2626" }}>"</div>
+                  <p style={{ 
+                    fontSize: "15px", 
+                    lineHeight: "1.7", 
+                    color: "#4b5563", 
+                    marginBottom: "20px",
+                    fontStyle: "italic"
+                  }}>{testimonial.text}</p>
                   <div>
-                    <h4 style={{ margin: "0", fontSize: "16px", fontWeight: "600" }}>{testimonial.name}</h4>
-                    <p style={{ margin: "5px 0 0", fontSize: "12px", color: "#dc2626" }}>{testimonial.role}</p>
-                    <div style={{ color: "#fbbf24", marginTop: "8px" }}>
-                      {"★".repeat(testimonial.rating)}{"☆".repeat(5 - testimonial.rating)}
+                    <h4 style={{ 
+                      margin: "0", 
+                      fontSize: "16px", 
+                      fontWeight: "600",
+                      color: "#1a1a2e"
+                    }}>{testimonial.name}</h4>
+                    <p style={{ 
+                      margin: "4px 0 0", 
+                      fontSize: "13px", 
+                      color: "#dc2626",
+                      fontWeight: "500"
+                    }}>{testimonial.role}</p>
+                    <div style={{ color: "#fbbf24", marginTop: "8px", fontSize: "16px" }}>
+                      {"★".repeat(testimonial.rating || 5)}{"☆".repeat(5 - (testimonial.rating || 5))}
                     </div>
                   </div>
                 </div>
@@ -267,16 +455,53 @@ function Home() {
       </div>
 
       {/* Contact Form Section */}
-      <div style={{ padding: "60px 20px", backgroundColor: "white" }}>
+      <div style={{ padding: "80px 20px", backgroundColor: "#f8f9fa" }}>
         <div style={{ maxWidth: "700px", margin: "0 auto", textAlign: "center" }}>
-          <h2 style={{ fontSize: "32px", marginBottom: "15px", fontWeight: "700" }}>Get In Touch</h2>
-          <p style={{ fontSize: "16px", color: "#6b7280", marginBottom: "40px" }}>Have questions? We'd love to hear from you.</p>
+          <h2 style={{ 
+            fontSize: "36px", 
+            marginBottom: "8px", 
+            fontWeight: "700",
+            color: "#1a1a2e"
+          }}>Get In Touch</h2>
+          <p style={{ 
+            fontSize: "18px", 
+            color: "#6b7280", 
+            marginBottom: "40px",
+            fontWeight: "300"
+          }}>Have questions? We'd love to hear from you.</p>
 
-          {status === "success" && <div style={{ backgroundColor: "#d1fae5", color: "#065f46", padding: "12px", borderRadius: "8px", marginBottom: "20px" }}>✅ Message sent successfully!</div>}
-          {status === "error" && <div style={{ backgroundColor: "#fee2e2", color: "#991b1b", padding: "12px", borderRadius: "8px", marginBottom: "20px" }}>❌ Failed to send. Please try again.</div>}
-          {status === "sending" && <div style={{ backgroundColor: "#dbeafe", color: "#1e40af", padding: "12px", borderRadius: "8px", marginBottom: "20px" }}>📧 Sending...</div>}
+          {status === "success" && (
+            <div style={{ 
+              backgroundColor: "#d1fae5", 
+              color: "#065f46", 
+              padding: "15px", 
+              borderRadius: "8px", 
+              marginBottom: "20px",
+              fontWeight: "500"
+            }}>✅ Message sent successfully!</div>
+          )}
+          {status === "error" && (
+            <div style={{ 
+              backgroundColor: "#fee2e2", 
+              color: "#991b1b", 
+              padding: "15px", 
+              borderRadius: "8px", 
+              marginBottom: "20px",
+              fontWeight: "500"
+            }}>❌ Failed to send. Please try again.</div>
+          )}
+          {status === "sending" && (
+            <div style={{ 
+              backgroundColor: "#dbeafe", 
+              color: "#1e40af", 
+              padding: "15px", 
+              borderRadius: "8px", 
+              marginBottom: "20px",
+              fontWeight: "500"
+            }}>📧 Sending...</div>
+          )}
 
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} style={{ backgroundColor: "white", padding: "40px", borderRadius: "12px", boxShadow: "0 2px 15px rgba(0,0,0,0.05)" }}>
             <input 
               type="text" 
               name="name" 
@@ -284,7 +509,18 @@ function Home() {
               value={formData.name} 
               onChange={handleChange} 
               required 
-              style={{ width: "100%", padding: "14px", marginBottom: "15px", border: "1px solid #e5e7eb", borderRadius: "8px", fontSize: "16px" }} 
+              style={{ 
+                width: "100%", 
+                padding: "14px 16px", 
+                marginBottom: "15px", 
+                border: "1px solid #e5e7eb", 
+                borderRadius: "8px", 
+                fontSize: "15px",
+                boxSizing: "border-box",
+                transition: "border-color 0.3s"
+              }}
+              onFocus={(e) => e.currentTarget.style.borderColor = "#dc2626"}
+              onBlur={(e) => e.currentTarget.style.borderColor = "#e5e7eb"}
             />
             <input 
               type="email" 
@@ -293,7 +529,18 @@ function Home() {
               value={formData.email} 
               onChange={handleChange} 
               required 
-              style={{ width: "100%", padding: "14px", marginBottom: "15px", border: "1px solid #e5e7eb", borderRadius: "8px", fontSize: "16px" }} 
+              style={{ 
+                width: "100%", 
+                padding: "14px 16px", 
+                marginBottom: "15px", 
+                border: "1px solid #e5e7eb", 
+                borderRadius: "8px", 
+                fontSize: "15px",
+                boxSizing: "border-box",
+                transition: "border-color 0.3s"
+              }}
+              onFocus={(e) => e.currentTarget.style.borderColor = "#dc2626"}
+              onBlur={(e) => e.currentTarget.style.borderColor = "#e5e7eb"}
             />
             <textarea 
               name="message" 
@@ -302,14 +549,49 @@ function Home() {
               value={formData.message} 
               onChange={handleChange} 
               required 
-              style={{ width: "100%", padding: "14px", marginBottom: "15px", border: "1px solid #e5e7eb", borderRadius: "8px", fontSize: "16px", fontFamily: "inherit" }} 
+              style={{ 
+                width: "100%", 
+                padding: "14px 16px", 
+                marginBottom: "20px", 
+                border: "1px solid #e5e7eb", 
+                borderRadius: "8px", 
+                fontSize: "15px", 
+                fontFamily: "inherit",
+                boxSizing: "border-box",
+                resize: "vertical",
+                transition: "border-color 0.3s"
+              }}
+              onFocus={(e) => e.currentTarget.style.borderColor = "#dc2626"}
+              onBlur={(e) => e.currentTarget.style.borderColor = "#e5e7eb"}
             />
             <button 
               type="submit" 
               disabled={status === "sending"} 
-              style={{ width: "100%", backgroundColor: "#dc2626", color: "white", padding: "14px", border: "none", borderRadius: "8px", fontSize: "16px", fontWeight: "500", cursor: "pointer" }}
-              onMouseEnter={(e) => e.target.style.backgroundColor = "#b91c1c"}
-              onMouseLeave={(e) => e.target.style.backgroundColor = "#dc2626"}>
+              style={{ 
+                width: "100%", 
+                backgroundColor: "#dc2626", 
+                color: "white", 
+                padding: "15px", 
+                border: "none", 
+                borderRadius: "8px", 
+                fontSize: "16px", 
+                fontWeight: "600", 
+                cursor: "pointer",
+                transition: "background-color 0.3s, transform 0.2s",
+                opacity: status === "sending" ? 0.7 : 1
+              }}
+              onMouseEnter={(e) => {
+                if (status !== "sending") {
+                  e.target.style.backgroundColor = "#b91c1c"
+                  e.target.style.transform = "translateY(-2px)"
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (status !== "sending") {
+                  e.target.style.backgroundColor = "#dc2626"
+                  e.target.style.transform = "translateY(0)"
+                }
+              }}>
               {status === "sending" ? "Sending..." : "Send Message"}
             </button>
           </form>
